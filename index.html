@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-AO">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frete Maurício – Entregas Motoboy & Compras em Luanda</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --red: #e8001d;
+    --dark-red: #b0001a;
+    --black: #0a0a0a;
+    --dark: #111;
+    --card: #1a1a1a;
+    --gold: #f5c518;
+    --white: #f5f5f5;
+    --gray: #999;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Nunito', sans-serif; background: var(--black); color: var(--white); overflow-x: hidden; }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 999;
+    background: rgba(10,10,10,0.93);
+    backdrop-filter: blur(14px);
+    border-bottom: 2px solid var(--red);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 6%; height: 68px;
+  }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; color: var(--white); letter-spacing: 2px; }
+  .nav-logo span { color: var(--red); }
+  nav ul { list-style: none; display: flex; gap: 2rem; }
+  nav ul a { text-decoration: none; color: var(--gray); font-weight: 700; font-size: .88rem; letter-spacing: 1px; text-transform: uppercase; transition: color .25s; display: flex; align-items: center; gap: .4rem; }
+  nav ul a:hover { color: var(--red); }
+  .nav-cta { background: var(--red) !important; color: #fff !important; padding: .45rem 1.2rem; border-radius: 50px; }
+  .nav-cta:hover { background: var(--dark-red) !important; }
+
+  /* ---- HERO ---- */
+  .hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex; align-items: center;
+    padding: 100px 6% 60px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&auto=format&fit=crop&q=80');
+    background-size: cover; background-position: center;
+    filter: brightness(.28);
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(10,10,10,.95) 40%, rgba(10,10,10,.4) 100%);
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 640px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: .5rem;
+    background: rgba(232,0,29,.15); border: 1px solid var(--red);
+    color: var(--red); padding: .35rem 1rem; border-radius: 50px;
+    font-size: .78rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: 1.5rem; animation: fadeDown .8s ease both;
+  }
+  .hero h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    line-height: 1; letter-spacing: 2px;
+    animation: fadeDown .8s .15s ease both;
+  }
+  .hero h1 .accent { color: var(--red); }
+  .hero p { margin-top: 1.4rem; font-size: 1.1rem; color: #bbb; line-height: 1.7; animation: fadeDown .8s .3s ease both; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 2.5rem; animation: fadeDown .8s .45s ease both; }
+  .btn-primary {
+    background: var(--red); color: #fff; padding: .85rem 2rem; border-radius: 50px;
+    font-weight: 800; font-size: 1rem; text-decoration: none;
+    transition: transform .2s, background .2s;
+    display: inline-flex; align-items: center; gap: .6rem;
+  }
+  .btn-primary:hover { background: var(--dark-red); transform: translateY(-2px); }
+  .btn-outline {
+    border: 2px solid rgba(255,255,255,.25); color: #fff; padding: .85rem 2rem;
+    border-radius: 50px; font-weight: 700; font-size: 1rem; text-decoration: none;
+    transition: border-color .2s, transform .2s;
+    display: inline-flex; align-items: center; gap: .6rem;
+  }
+  .btn-outline:hover { border-color: var(--red); transform: translateY(-2px); }
+  .hero-stats { display: flex; gap: 2.5rem; flex-wrap: wrap; margin-top: 3rem; animation: fadeDown .8s .6s ease both; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; color: var(--red); line-height: 1; }
+  .stat-label { font-size: .78rem; color: var(--gray); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ---- SECTION COMMON ---- */
+  section { padding: 90px 6%; }
+  .section-tag { display: inline-flex; align-items: center; gap: .4rem; color: var(--red); font-weight: 800; font-size: .78rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: .8rem; }
+  .section-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 5vw, 3.5rem); line-height: 1.1; margin-bottom: 1rem; }
+  .section-sub { color: var(--gray); font-size: 1.05rem; line-height: 1.7; max-width: 560px; }
+
+  /* ---- SERVICES ---- */
+  #servicos { background: var(--dark); }
+  .services-header { text-align: center; margin-bottom: 3.5rem; }
+  .services-header .section-sub { margin: 0 auto; }
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+  .service-card {
+    background: var(--card); border: 1px solid rgba(255,255,255,.06);
+    border-radius: 20px; overflow: hidden;
+    transition: transform .3s, border-color .3s, box-shadow .3s;
+    position: relative;
+  }
+  .service-card:hover { transform: translateY(-6px); border-color: rgba(232,0,29,.4); box-shadow: 0 20px 60px rgba(232,0,29,.15); }
+  .service-img { width: 100%; height: 180px; object-fit: cover; display: block; filter: brightness(.8); transition: filter .3s; }
+  .service-card:hover .service-img { filter: brightness(.95); }
+  .service-img-overlay {
+    position: absolute; top: 0; left: 0; right: 0; height: 180px;
+    background: linear-gradient(to bottom, transparent 40%, var(--card) 100%);
+  }
+  .service-icon-badge {
+    position: absolute; top: 140px; left: 1.5rem;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--red); display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; color: #fff;
+    box-shadow: 0 4px 16px rgba(232,0,29,.4);
+  }
+  .service-body { padding: 1.4rem 1.5rem 1.8rem; margin-top: .5rem; }
+  .service-body h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: .6rem; }
+  .service-body p { color: var(--gray); font-size: .92rem; line-height: 1.6; }
+
+  /* ---- COMO FUNCIONA ---- */
+  #como-funciona { background: var(--black); }
+  .steps-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-top: 3rem; }
+  .step { text-align: center; padding: 2rem 1.5rem; position: relative; }
+  .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: rgba(232,0,29,.12); line-height: 1; position: absolute; top: -1rem; left: 50%; transform: translateX(-50%); user-select: none; white-space: nowrap; }
+  .step-icon { width: 80px; height: 80px; border-radius: 50%; background: rgba(232,0,29,.1); border: 2px solid var(--red); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--red); margin: 2.5rem auto 1.5rem; }
+  .step h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: .6rem; }
+  .step p { color: var(--gray); font-size: .9rem; line-height: 1.6; }
+
+  /* ---- GALLERY STRIP ---- */
+  #galeria { background: var(--dark); padding: 60px 0; overflow: hidden; }
+  .gallery-title { text-align: center; margin-bottom: 2rem; padding: 0 6%; }
+  .gallery-strip { display: flex; gap: 1rem; padding: 0 6%; overflow-x: auto; scrollbar-width: none; cursor: grab; }
+  .gallery-strip::-webkit-scrollbar { display: none; }
+  .gallery-strip.grabbing { cursor: grabbing; }
+  .gallery-img { flex-shrink: 0; width: 300px; height: 220px; object-fit: cover; border-radius: 16px; filter: brightness(.8); transition: transform .3s, filter .3s; border: 2px solid rgba(232,0,29,.15); }
+  .gallery-img:hover { transform: scale(1.03); filter: brightness(1); border-color: var(--red); }
+
+  /* ---- AREAS ---- */
+  #areas { background: var(--black); }
+  .areas-content { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+  .areas-list { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .area-chip {
+    background: var(--card); border: 1px solid rgba(255,255,255,.08); border-radius: 12px;
+    padding: .8rem 1.2rem; font-weight: 700; font-size: .9rem;
+    display: flex; align-items: center; gap: .6rem;
+    transition: border-color .25s, background .25s;
+  }
+  .area-chip i { color: var(--red); font-size: .85rem; }
+  .area-chip:hover { border-color: var(--red); background: rgba(232,0,29,.07); }
+  .area-img { width: 100%; border-radius: 24px; aspect-ratio: 1; object-fit: cover; border: 3px solid rgba(232,0,29,.3); box-shadow: 0 0 60px rgba(232,0,29,.12); }
+
+  /* ---- ORDER ---- */
+  #fazer-pedido { background: var(--dark); }
+  .order-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+  .order-form { background: var(--card); border: 1px solid rgba(255,255,255,.07); border-radius: 24px; padding: 2.5rem; }
+  .form-group { margin-bottom: 1.4rem; }
+  label { display: flex; align-items: center; gap: .5rem; font-size: .82rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--gray); margin-bottom: .5rem; }
+  label i { color: var(--red); }
+  input, select, textarea {
+    width: 100%; background: rgba(255,255,255,.05); border: 1.5px solid rgba(255,255,255,.1);
+    border-radius: 12px; padding: .85rem 1.1rem; color: var(--white);
+    font-family: 'Nunito', sans-serif; font-size: .95rem; outline: none;
+    transition: border-color .25s, background .25s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--red); background: rgba(232,0,29,.05); }
+  select option { background: #222; }
+  textarea { resize: vertical; min-height: 100px; }
+  .form-submit {
+    width: 100%; background: var(--red); color: #fff; border: none; border-radius: 50px;
+    padding: 1rem; font-family: 'Nunito', sans-serif; font-size: 1rem; font-weight: 800;
+    cursor: pointer; transition: background .25s, transform .2s; letter-spacing: 1px;
+    display: flex; align-items: center; justify-content: center; gap: .6rem;
+  }
+  .form-submit:hover { background: var(--dark-red); transform: translateY(-2px); }
+  .order-info h3 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; margin-bottom: 1.5rem; }
+  .order-info p { color: var(--gray); line-height: 1.7; margin-bottom: 2rem; }
+  .contact-cards { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-card {
+    display: flex; align-items: center; gap: 1.2rem;
+    background: var(--card); border: 1px solid rgba(255,255,255,.07);
+    border-radius: 16px; padding: 1.2rem 1.5rem;
+    text-decoration: none; color: var(--white);
+    transition: border-color .25s, transform .2s;
+  }
+  .contact-card:hover { border-color: var(--red); transform: translateX(4px); }
+  .contact-card-icon { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0; }
+  .cc-whats { background: rgba(37,211,102,.15); border: 1px solid rgba(37,211,102,.3); color: #25D366; }
+  .cc-insta { background: rgba(225,48,108,.15); border: 1px solid rgba(225,48,108,.3); color: #E1306C; }
+  .cc-phone { background: rgba(232,0,29,.15); border: 1px solid rgba(232,0,29,.3); color: var(--red); }
+  .contact-card-text span { display: block; font-size: .75rem; color: var(--gray); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: .1rem; }
+  .contact-card-text strong { font-size: 1rem; }
+
+  /* ---- TESTIMONIALS ---- */
+  #clientes { background: var(--black); }
+  .testimonials-header { text-align: center; margin-bottom: 3.5rem; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+  .testimonial-card {
+    background: var(--card); border: 1px solid rgba(255,255,255,.07);
+    border-radius: 20px; padding: 2rem;
+    transition: border-color .3s, transform .3s;
+  }
+  .testimonial-card:hover { border-color: rgba(232,0,29,.3); transform: translateY(-4px); }
+  .t-top { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+  .t-avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid var(--red); flex-shrink: 0; }
+  .stars { color: var(--gold); font-size: .9rem; letter-spacing: 2px; margin-bottom: .3rem; }
+  .testimonial-card p { color: #bbb; line-height: 1.7; font-size: .95rem; margin-bottom: 1.2rem; }
+  .t-name { font-weight: 800; font-size: .95rem; }
+  .t-label { font-size: .8rem; color: var(--gray); display: flex; align-items: center; gap: .3rem; }
+  .t-label i { color: var(--red); }
+
+  /* ---- WHY ---- */
+  #porque-nos { background: var(--dark); position: relative; overflow: hidden; }
+  .why-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1568438350562-2cae6d394ad0?w=1200&auto=format&fit=crop&q=60') center/cover; opacity: .06; }
+  .why-content { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
+  .why-list { display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem; }
+  .why-item { display: flex; gap: 1.2rem; align-items: flex-start; }
+  .why-icon { width: 46px; height: 46px; border-radius: 12px; background: rgba(232,0,29,.12); border: 1.5px solid rgba(232,0,29,.3); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--red); flex-shrink: 0; }
+  .why-item h4 { font-size: 1rem; font-weight: 800; margin-bottom: .3rem; }
+  .why-item p { color: var(--gray); font-size: .9rem; line-height: 1.6; }
+  .why-img-wrap { position: relative; }
+  .why-main-img { width: 100%; border-radius: 24px; object-fit: cover; aspect-ratio: .9; border: 3px solid rgba(232,0,29,.25); box-shadow: 0 20px 80px rgba(0,0,0,.6); }
+  .why-badge-card {
+    position: absolute; bottom: -1.5rem; left: -1.5rem;
+    background: var(--red); border-radius: 20px; padding: 1.2rem 1.5rem;
+    box-shadow: 0 10px 40px rgba(232,0,29,.4); min-width: 160px;
+  }
+  .why-badge-card .num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: #fff; line-height: 1; }
+  .why-badge-card .lbl { font-size: .78rem; color: rgba(255,255,255,.75); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ---- FOOTER ---- */
+  footer { background: var(--dark); border-top: 2px solid var(--red); padding: 4rem 6% 2rem; display: grid; grid-template-columns: 1.6fr 1fr 1fr; gap: 3rem; }
+  .footer-brand h2 { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; margin-bottom: .5rem; letter-spacing: 2px; }
+  .footer-brand h2 span { color: var(--red); }
+  .footer-brand p { color: var(--gray); font-size: .9rem; line-height: 1.6; margin-bottom: 1.5rem; }
+  .footer-social { display: flex; gap: .8rem; }
+  .social-btn {
+    width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); color: #ccc; font-size: 1rem;
+    text-decoration: none; transition: background .25s, color .25s, border-color .25s;
+  }
+  .social-btn:hover { background: var(--red); color: #fff; border-color: var(--red); }
+  .footer-col h4 { font-weight: 800; font-size: .82rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gray); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: .8rem; }
+  .footer-col ul a { text-decoration: none; color: #aaa; font-size: .9rem; transition: color .2s; display: flex; align-items: center; gap: .5rem; }
+  .footer-col ul a i { color: var(--red); font-size: .8rem; width: 14px; }
+  .footer-col ul a:hover { color: var(--red); }
+  .footer-bottom { text-align: center; background: var(--black); padding: 1.2rem 6%; color: var(--gray); font-size: .85rem; border-top: 1px solid rgba(255,255,255,.05); }
+
+  /* ---- WA FLOAT ---- */
+  .wa-float {
+    position: fixed; bottom: 2rem; right: 2rem;
+    background: #25D366; color: #fff;
+    width: 62px; height: 62px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 1.7rem;
+    text-decoration: none; box-shadow: 0 4px 24px rgba(37,211,102,.45);
+    z-index: 999; animation: pulseGreen 2.5s ease infinite; transition: transform .2s;
+  }
+  .wa-float:hover { transform: scale(1.1); }
+
+  @keyframes fadeDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulseGreen { 0%,100% { box-shadow: 0 4px 24px rgba(37,211,102,.45); } 50% { box-shadow: 0 4px 50px rgba(37,211,102,.75); } }
+
+  @media (max-width: 900px) {
+    nav ul { display: none; }
+    .areas-content, .order-wrapper, .why-content, footer { grid-template-columns: 1fr; }
+    .why-badge-card { left: 0; bottom: -1rem; }
+  }
+  @media (max-width: 600px) {
+    .areas-list { grid-template-columns: 1fr 1fr; }
+    .services-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Frete <span>Maurício</span></div>
+  <ul>
+    <li><a href="#servicos"><i class="fa-solid fa-box"></i> Serviços</a></li>
+    <li><a href="#areas"><i class="fa-solid fa-map-location-dot"></i> Áreas</a></li>
+    <li><a href="#como-funciona"><i class="fa-solid fa-circle-info"></i> Como Funciona</a></li>
+    <li><a href="#clientes"><i class="fa-solid fa-star"></i> Clientes</a></li>
+    <li><a href="#fazer-pedido" class="nav-cta"><i class="fa-solid fa-motorcycle"></i> Fazer Pedido</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><i class="fa-solid fa-motorcycle"></i> Serviço Rápido em Luanda</div>
+    <h1>Entregamos <span class="accent">Tudo</span><br>Onde Estiveres</h1>
+    <p>Motoboy profissional, compras e entregas ágeis em Benfica, Patriota, Belas, Talatona e muito mais. Para particulares e empresas — nós chegamos lá.</p>
+    <div class="hero-btns">
+      <a href="#fazer-pedido" class="btn-primary"><i class="fa-solid fa-box-open"></i> Fazer Pedido Agora</a>
+      <a href="https://wa.me/244943173267" target="_blank" class="btn-outline"><i class="fa-brands fa-whatsapp"></i> WhatsApp</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">390+</div>
+        <div class="stat-label"><i class="fa-solid fa-users" style="color:var(--red);margin-right:.3rem"></i>Seguidores</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">78+</div>
+        <div class="stat-label"><i class="fa-solid fa-truck-fast" style="color:var(--red);margin-right:.3rem"></i>Entregas</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">24h</div>
+        <div class="stat-label"><i class="fa-solid fa-clock" style="color:var(--red);margin-right:.3rem"></i>Disponível</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="services-header">
+    <div class="section-tag"><i class="fa-solid fa-grip"></i> O que fazemos</div>
+    <h2 class="section-title">Nossos Serviços</h2>
+    <p class="section-sub">Desde entregas urgentes até compras no mercado, prontos para atender particulares e empresas em Luanda.</p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop&q=75" alt="Motoboy entrega">
+      <div class="service-img-overlay"></div>
+      <div class="service-icon-badge"><i class="fa-solid fa-motorcycle"></i></div>
+      <div class="service-body">
+        <h3>Entrega Motoboy</h3>
+        <p>Entregas rápidas e seguras de documentos, pacotes e encomendas com rastreio em tempo real via WhatsApp.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=75" alt="Compras supermercado">
+      <div class="service-img-overlay"></div>
+      <div class="service-icon-badge"><i class="fa-solid fa-cart-shopping"></i></div>
+      <div class="service-body">
+        <h3>Compras por Encomenda</h3>
+        <p>Não tem tempo de ir ao mercado? Nós fazemos as compras por você e entregamos na sua porta com praticidade.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=75" alt="Delivery de comida">
+      <div class="service-img-overlay"></div>
+      <div class="service-icon-badge"><i class="fa-solid fa-burger"></i></div>
+      <div class="service-body">
+        <h3>Delivery de Comida</h3>
+        <p>Busque refeições nos seus restaurantes favoritos em Luanda. Comida quentinha entregue com rapidez e cuidado.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1664575602276-acd073f104c1?w=600&auto=format&fit=crop&q=75" alt="Serviço para empresas">
+      <div class="service-img-overlay"></div>
+      <div class="service-icon-badge"><i class="fa-solid fa-building"></i></div>
+      <div class="service-body">
+        <h3>Serviços para Empresas</h3>
+        <p>Soluções logísticas para empresas: entregas recorrentes, documentação e distribuição. Orçamento personalizado.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&auto=format&fit=crop&q=75" alt="Transporte mercadorias">
+      <div class="service-img-overlay"></div>
+      <div class="service-icon-badge"><i class="fa-solid fa-box-archive"></i></div>
+      <div class="service-body">
+        <h3>Transporte de Mercadorias</h3>
+        <p>Transporte de mercadorias de pequeno e médio volume com segurança e agilidade. Ideal para lojas e revendedores.</p>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <img class="service-img" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&auto=format&fit=crop&q=75" alt="Parcerias comerciais">
+      <div class="service-img-overlay"></div>
+      <div class="service-icon-badge"><i class="fa-solid fa-handshake"></i></div>
+      <div class="service-body">
+        <h3>Parcerias Comerciais</h3>
+        <p>Somos o parceiro logístico ideal para o seu negócio. Fale connosco e optimize as suas entregas e custos.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div style="text-align:center">
+    <div class="section-tag" style="justify-content:center"><i class="fa-solid fa-list-check"></i> Simples assim</div>
+    <h2 class="section-title">Como Fazer um Pedido</h2>
+    <p class="section-sub" style="margin:0 auto">Em 4 passos simples o seu pedido está a caminho. Fácil, rápido, sem complicações.</p>
+  </div>
+  <div class="steps-wrapper">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+      <h3>Faça o Pedido</h3>
+      <p>Preencha o formulário no site ou envie mensagem pelo WhatsApp com o que precisa e o endereço.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-icon"><i class="fa-solid fa-comments"></i></div>
+      <h3>Confirmação</h3>
+      <p>A nossa equipa confirma o pedido e informa o valor e o tempo estimado de entrega rapidamente.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-icon"><i class="fa-solid fa-motorcycle"></i></div>
+      <h3>Em Rota</h3>
+      <p>O motoboy parte imediatamente. Acompanhe tudo via WhatsApp com actualizações constantes.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-icon"><i class="fa-solid fa-circle-check"></i></div>
+      <h3>Entregue!</h3>
+      <p>Pedido chegou com segurança. Receba e confirme. A sua satisfação é sempre a nossa prioridade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria">
+  <div class="gallery-title">
+    <div class="section-tag" style="justify-content:center"><i class="fa-solid fa-images"></i> Galeria</div>
+    <h2 class="section-title">No Terreno</h2>
+  </div>
+  <div class="gallery-strip" id="galleryStrip">
+    <img class="gallery-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop&q=75" alt="motoboy rua">
+    <img class="gallery-img" src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&auto=format&fit=crop&q=75" alt="comida delivery">
+    <img class="gallery-img" src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=600&auto=format&fit=crop&q=75" alt="compras mercado">
+    <img class="gallery-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&auto=format&fit=crop&q=75" alt="caixa entrega">
+    <img class="gallery-img" src="https://images.unsplash.com/photo-1521791136064-7986c2920216?w=600&auto=format&fit=crop&q=75" alt="parceiros handshake">
+    <img class="gallery-img" src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?w=600&auto=format&fit=crop&q=75" alt="entrega cidade">
+  </div>
+</section>
+
+<!-- ÁREAS -->
+<section id="areas">
+  <div class="areas-content">
+    <div>
+      <div class="section-tag"><i class="fa-solid fa-map-location-dot"></i> Cobertura</div>
+      <h2 class="section-title">Áreas Atendidas</h2>
+      <p class="section-sub">Atuamos nos principais bairros de Luanda e arredores. Não encontrou a sua zona? Entre em contacto, podemos negociar!</p>
+      <div class="areas-list" style="margin-top:2rem">
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Benfica</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Patriota</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Belas</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Talatona</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Kilamba</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Viana</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Cacuaco</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Luanda Centro</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Morro Bento</div>
+        <div class="area-chip"><i class="fa-solid fa-location-dot"></i> Cazenga</div>
+      </div>
+    </div>
+    <div>
+      <img class="area-img" src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=700&auto=format&fit=crop&q=80" alt="Luanda cidade vista aérea">
+    </div>
+  </div>
+</section>
+
+<!-- FAZER PEDIDO -->
+<section id="fazer-pedido">
+  <div class="order-wrapper">
+    <div class="order-form">
+      <h3 style="font-family:'Bebas Neue',sans-serif; font-size:2rem; margin-bottom:1.5rem; color:var(--red);">
+        <i class="fa-solid fa-box-open"></i> Fazer Pedido
+      </h3>
+      <div class="form-group">
+        <label><i class="fa-solid fa-user"></i> Seu Nome</label>
+        <input id="f-name" type="text" placeholder="Ex: João Silva">
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-phone"></i> Número de Telefone</label>
+        <input id="f-phone" type="tel" placeholder="+244 9XX XXX XXX">
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-list"></i> Tipo de Serviço</label>
+        <select id="f-service">
+          <option value="">Selecione um serviço</option>
+          <option>Entrega Motoboy</option>
+          <option>Compras por Encomenda</option>
+          <option>Delivery de Comida</option>
+          <option>Serviço para Empresa</option>
+          <option>Transporte de Mercadorias</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-map-pin"></i> Endereço de Recolha</label>
+        <input id="f-pickup" type="text" placeholder="Onde devemos ir buscar?">
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-location-arrow"></i> Endereço de Entrega</label>
+        <input id="f-delivery" type="text" placeholder="Onde devemos entregar?">
+      </div>
+      <div class="form-group">
+        <label><i class="fa-solid fa-pen-to-square"></i> Detalhes do Pedido</label>
+        <textarea id="f-details" placeholder="Descreva o que precisa, quantidade, observações..."></textarea>
+      </div>
+      <button class="form-submit" onclick="sendWhatsApp()">
+        <i class="fa-brands fa-whatsapp"></i> Enviar Pedido via WhatsApp
+      </button>
+    </div>
+    <div class="order-info">
+      <h3>Fale Connosco<br><span style="color:var(--red)">Directamente</span></h3>
+      <p>Prefere contactar directamente? Escolha o canal mais conveniente. Respondemos rapidamente!</p>
+      <div class="contact-cards">
+        <a href="https://wa.me/244943173267" target="_blank" class="contact-card">
+          <div class="contact-card-icon cc-whats"><i class="fa-brands fa-whatsapp"></i></div>
+          <div class="contact-card-text">
+            <span>WhatsApp</span>
+            <strong>+244 943 173 267</strong>
+          </div>
+        </a>
+        <a href="https://instagram.com/frete_mauricio" target="_blank" class="contact-card">
+          <div class="contact-card-icon cc-insta"><i class="fa-brands fa-instagram"></i></div>
+          <div class="contact-card-text">
+            <span>Instagram</span>
+            <strong>@frete_mauricio</strong>
+          </div>
+        </a>
+        <a href="tel:+244943173267" class="contact-card">
+          <div class="contact-card-icon cc-phone"><i class="fa-solid fa-phone"></i></div>
+          <div class="contact-card-text">
+            <span>Ligação Directa</span>
+            <strong>+244 943 173 267</strong>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="clientes">
+  <div class="testimonials-header">
+    <div class="section-tag" style="justify-content:center"><i class="fa-solid fa-star"></i> Clientes Satisfeitos</div>
+    <h2 class="section-title">O que dizem de nós</h2>
+    <p class="section-sub" style="margin:0 auto">A confiança dos nossos clientes é o nosso maior troféu. Veja o que eles dizem!</p>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="t-top">
+        <img class="t-avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=100&auto=format&fit=crop&q=75" alt="cliente">
+        <div>
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="t-name">Ana Beatriz M.</div>
+          <div class="t-label"><i class="fa-solid fa-location-dot"></i> Talatona</div>
+        </div>
+      </div>
+      <p>Serviço muito rápido e profissional! Encomendei comida e chegou quente em menos de 30 minutos. Recomendo a todos!</p>
+    </div>
+    <div class="testimonial-card">
+      <div class="t-top">
+        <img class="t-avatar" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=100&auto=format&fit=crop&q=75" alt="cliente">
+        <div>
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="t-name">Pedro Lopes</div>
+          <div class="t-label"><i class="fa-solid fa-location-dot"></i> Benfica</div>
+        </div>
+      </div>
+      <p>Usamos o Frete Maurício para entregas da nossa empresa há meses. Sempre pontuais e muito cuidadosos com os produtos.</p>
+    </div>
+    <div class="testimonial-card">
+      <div class="t-top">
+        <img class="t-avatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100&auto=format&fit=crop&q=75" alt="cliente">
+        <div>
+          <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+          <div class="t-name">Mariana Costa</div>
+          <div class="t-label"><i class="fa-solid fa-location-dot"></i> Kilamba</div>
+        </div>
+      </div>
+      <p>Fiz as compras do supermercado sem sair de casa. Chegaram tudo certinho, sem nada a faltar. Serviço excelente!</p>
+    </div>
+  </div>
+</section>
+
+<!-- PORQUÊ NÓS -->
+<section id="porque-nos">
+  <div class="why-bg"></div>
+  <div class="why-content">
+    <div>
+      <div class="section-tag"><i class="fa-solid fa-trophy"></i> Diferencial</div>
+      <h2 class="section-title">Porque Escolher<br><span style="color:var(--red)">o Frete Maurício?</span></h2>
+      <div class="why-list">
+        <div class="why-item">
+          <div class="why-icon"><i class="fa-solid fa-bolt"></i></div>
+          <div><h4>Rapidez Garantida</h4><p>Saímos imediatamente após a confirmação do pedido. Tempo é dinheiro e sabemos disso.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon"><i class="fa-solid fa-shield-halved"></i></div>
+          <div><h4>Segurança & Confiança</h4><p>Profissionais identificados e responsáveis. Seus produtos chegam com segurança e integridade.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon"><i class="fa-solid fa-tag"></i></div>
+          <div><h4>Preço Justo</h4><p>Valores acessíveis para particulares e tarifas especiais para empresas com volume de entregas.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon"><i class="fa-solid fa-comments"></i></div>
+          <div><h4>Comunicação Constante</h4><p>Actualizações em tempo real via WhatsApp. Você sabe exactamente onde está a sua encomenda.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="why-icon"><i class="fa-solid fa-earth-africa"></i></div>
+          <div><h4>Ampla Cobertura</h4><p>Atendemos os principais bairros de Luanda e estamos a expandir. Pergunte-nos sobre a sua zona!</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="why-img-wrap">
+      <img class="why-main-img" src="https://images.unsplash.com/photo-1568438350562-2cae6d394ad0?w=700&auto=format&fit=crop&q=80" alt="motoboy profissional em acção">
+      <div class="why-badge-card">
+        <div class="num">100%</div>
+        <div class="lbl"><i class="fa-solid fa-heart"></i> Satisfação</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">
+    <h2>Frete <span>Maurício</span></h2>
+    <p>Serviços de entrega motoboy e compras em Luanda. Rápido, seguro e confiável — para particulares e empresas.</p>
+    <p style="font-size:.85rem; margin-bottom:1.2rem"><i class="fa-solid fa-location-dot" style="color:var(--red)"></i> Benfica, Patriota, Belas, Talatona – Luanda, Angola</p>
+    <div class="footer-social">
+      <a href="https://instagram.com/frete_mauricio" target="_blank" class="social-btn" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://wa.me/244943173267" target="_blank" class="social-btn" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      <a href="tel:+244943173267" class="social-btn" title="Ligar"><i class="fa-solid fa-phone"></i></a>
+    </div>
+  </div>
+  <div class="footer-col">
+    <h4>Serviços</h4>
+    <ul>
+      <li><a href="#servicos"><i class="fa-solid fa-motorcycle"></i> Entrega Motoboy</a></li>
+      <li><a href="#servicos"><i class="fa-solid fa-cart-shopping"></i> Compras por Encomenda</a></li>
+      <li><a href="#servicos"><i class="fa-solid fa-burger"></i> Delivery de Comida</a></li>
+      <li><a href="#servicos"><i class="fa-solid fa-building"></i> Serviços Empresariais</a></li>
+    </ul>
+  </div>
+  <div class="footer-col">
+    <h4>Navegação</h4>
+    <ul>
+      <li><a href="#inicio"><i class="fa-solid fa-house"></i> Início</a></li>
+      <li><a href="#areas"><i class="fa-solid fa-map-location-dot"></i> Áreas Cobertas</a></li>
+      <li><a href="#clientes"><i class="fa-solid fa-star"></i> Depoimentos</a></li>
+      <li><a href="#fazer-pedido"><i class="fa-solid fa-box-open"></i> Fazer Pedido</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <i class="fa-regular fa-copyright"></i> 2025 Frete Maurício &middot; Todos os direitos reservados &middot; Luanda, Angola
+</div>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/244943173267" target="_blank" class="wa-float" title="Falar no WhatsApp">
+  <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script>
+  function sendWhatsApp() {
+    const name = document.getElementById('f-name').value;
+    const phone = document.getElementById('f-phone').value;
+    const service = document.getElementById('f-service').value;
+    const pickup = document.getElementById('f-pickup').value;
+    const delivery = document.getElementById('f-delivery').value;
+    const details = document.getElementById('f-details').value;
+    if (!name || !service || !pickup || !delivery) {
+      alert('Por favor preencha: Nome, Serviço, Endereço de Recolha e de Entrega.');
+      return;
+    }
+    const msg = `🛵 *NOVO PEDIDO – Frete Maurício*\n\n👤 *Nome:* ${name}\n📞 *Telefone:* ${phone || 'Não informado'}\n📦 *Serviço:* ${service}\n📍 *Recolha:* ${pickup}\n🏠 *Entrega:* ${delivery}\n📝 *Detalhes:* ${details || 'Sem detalhes adicionais'}`;
+    window.open(`https://wa.me/244943173267?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+
+  // Drag-to-scroll gallery
+  const strip = document.getElementById('galleryStrip');
+  let isDown = false, startX, scrollL;
+  strip.addEventListener('mousedown', e => { isDown = true; strip.classList.add('grabbing'); startX = e.pageX - strip.offsetLeft; scrollL = strip.scrollLeft; });
+  strip.addEventListener('mouseleave', () => { isDown = false; strip.classList.remove('grabbing'); });
+  strip.addEventListener('mouseup', () => { isDown = false; strip.classList.remove('grabbing'); });
+  strip.addEventListener('mousemove', e => { if (!isDown) return; e.preventDefault(); const x = e.pageX - strip.offsetLeft; strip.scrollLeft = scrollL - (x - startX) * 1.5; });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; } });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.service-card, .step, .area-chip, .testimonial-card, .why-item, .contact-card, .gallery-img').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(28px)';
+    el.style.transition = `opacity .5s ${i * 0.06}s ease, transform .5s ${i * 0.06}s ease`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
